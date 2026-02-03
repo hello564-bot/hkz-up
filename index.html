@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKZ UTTAR PRADESH | Official Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --p-green: #064e3b; --s-green: #10b981; --accent: #facc15;
+            --dark: #020617; --white: #ffffff; --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #fafafa; color: var(--dark); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+        /* --- Animations --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+/* --- Header & Nav --- */
+header { 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    z-index: 1000; 
+    padding: 15px 0; 
+    transition: var(--transition); 
+}
+
+header.scrolled { 
+    background: rgba(255, 255, 255, 0.9); 
+    backdrop-filter: blur(15px); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+}
+
+.nav-container { 
+    max-width: 1300px; 
+    margin: 0 auto; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 25px; 
+}
+
+.logo-box { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    text-decoration: none; 
+    z-index: 1100; 
+}
+
+/* Yahan humne radius change kiya hai */
+.logo-box img { 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 8px; /* Square with slight round corners */
+    border: 2px solid var(--s-green); 
+    object-fit: contain; /* Taki image stretch na ho */
+    background: #fff; /* Taki logo ka background clear dikhe */
+}
+
+.logo-box h1 { 
+    font-family: 'Outfit'; 
+    font-size: 1.2rem; 
+    color: var(--p-green); 
+    font-weight: 800; 
+}
+
+
+        /* Navigation Menu */
+        .nav-menu { display: flex; list-style: none; gap: 25px; align-items: center; }
+        .nav-menu a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+        .nav-menu a:hover { color: var(--s-green); }
+        
+        /* Hamburger Button */
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 1100; }
+        .hamburger span { width: 25px; height: 3px; background: var(--p-green); border-radius: 10px; transition: 0.3s; }
+
+        /* --- Hero Slider --- */
+        .hero { height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; text-align: center; }
+        .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: 1.5s; transform: scale(1.1); }
+        .slide.active { opacity: 1; transform: scale(1); }
+        .slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)); }
+
+        .hero-content { position: relative; z-index: 10; color: white; width: 100%; padding: 0 20px; }
+        .hero-content h2 { font-family: 'Outfit'; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; margin-bottom: 20px; }
+        .hero-content p { font-size: clamp(0.9rem, 4vw, 1.3rem); color: var(--accent); letter-spacing: 2px; margin-bottom: 30px; }
+
+        .btn-premium { padding: 15px 40px; background: var(--s-green); color: white; border-radius: 50px; text-decoration: none; font-weight: 700; display: inline-block; transition: var(--transition); }
+
+        /* --- Stats Card --- */
+        .stats-section { padding: 0 20px; margin-top: -60px; position: relative; z-index: 20; }
+        .stats-container { max-width: 1100px; margin: 0 auto; background: white; padding: 40px 20px; border-radius: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: center; }
+        .stat-item h3 { font-family: 'Outfit'; font-size: 2.8rem; color: var(--p-green); }
+
+        /* --- Sections & Grids --- */
+        section { padding: 80px 20px; max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-family: 'Outfit'; font-size: 2.5rem; color: var(--p-green); }
+
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+
+        /* Post/Team Cards */
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: var(--transition); border: 1px solid #f1f1f1; }
+        .card:hover { transform: translateY(-10px); }
+        .card-img { width: 100%; height: 250px; object-fit: cover; }
+        .card-body { padding: 25px; }
+        .team-img { width: 120px; height: 120px; border-radius: 30px; object-fit: cover; margin-bottom: 20px; }
+
+        /* --- Donate Section --- */
+        .donate-card { background: var(--p-green); color: white; border-radius: 30px; padding: 50px 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; align-items: center; text-align: center; }
+        .qr-area { background: white; padding: 15px; border-radius: 15px; width: fit-content; margin: 0 auto; }
+        .qr-area img { width: 200px; }
+
+        /* --- Footer --- */
+        footer { background: var(--dark); color: white; padding: 80px 25px 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-col h4 { color: var(--s-green); margin-bottom: 20px; }
+        .footer-col a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 10px; font-size: 0.9rem; }
+        .bottom-bar { margin-top: 50px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; font-size: 0.8rem; color: #64748b; }
+
+        /* --- Modal --- */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .modal-content { background: white; padding: 40px; border-radius: 25px; max-width: 600px; position: relative; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 850px) {
+            .hamburger { display: flex; }
+            .nav-menu {
+                position: fixed; top: 0; right: -100%; height: 100vh; width: 80%; 
+                background: white; flex-direction: column; padding-top: 100px;
+                transition: 0.5s; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            }
+            .nav-menu.active { right: 0; }
+            .hero-content h2 { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="nav-container">
+            <a href="#" class="logo-box">
+                <img src="https://i.ibb.co/GQZqGkxS/akshay-logo-1.png" alt="Logo">
+                <h1>HKZ UP</h1>
+            </a>
+            <div class="hamburger" id="mob-btn">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-menu" id="menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#updates">Projects</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#donate" class="btn-premium" style="padding: 10px 25px; color: white;">Donate</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div id="home" class="hero">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200')"></div>
+        <div class="slide" style="background-image: url('https://i.ibb.co/j9hrqjLC/Screenshot-20260203-170758.png')"></div>
+        <div class="slide" style="background-image: url('https://i.ibb.co/3mbdnsWx/IMG-20260203-095819784.jpg')"></div>
+        <div class="hero-content">
+            <p>HARIYALI KA ZARIYA</p>
+            <h2>Green Uttar Pradesh,<br>Clean Future.</h2>
+            <a href="#donate" class="btn-premium">Join The Movement</a>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="stats-container reveal">
+            <div class="stat-item"><h3>10K+</h3><p>Plants</p></div>
+            <div class="stat-item"><h3>500+</h3><p>Members</p></div>
+            <div class="stat-item"><h3>25+</h3><p>Cities</p></div>
+        </div>
+    </div>
+
+    <section id="updates">
+        <div class="section-header reveal">
+            <h2>Latest Missions</h2>
+        </div>
+        <div class="grid-layout">
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1599059813005-11265ba4b4ce?auto=format&fit=crop&w=600" class="card-img" alt="Post">
+                <div class="card-body">
+                    <h3>Lucknow Green Drive</h3>
+                    <p>Planting hope in the heart of UP with 2000+ saplings.</p>
+                </div>
+            </div>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1595273670150-db0a3e39243e?auto=format&fit=crop&w=600" class="card-img" alt="Post">
+                <div class="card-body">
+                    <h3>River Clean 2026</h3>
+                    <p>Cleaned 5km stretch of the Gomti riverbank.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" style="background: #fdfdfd;">
+        <div class="section-header reveal">
+            <h2>Our Core Team</h2>
+        </div>
+        <div class="grid-layout">
+            <div class="card reveal" style="text-align: center; padding: 30px;">
+                <img src="https://i.ibb.co/TBk4Tfmy/Screenshot-20260203-125941.png" class="team-img" alt="Akshay">
+                <h3>Akshay Patel</h3>
+                <p style="color: var(--s-green); font-weight: 700;">Founder</p>
+            </div>
+            <div class="card reveal" style="text-align: center; padding: 30px;">
+                <img src="https://i.ibb.co/Lh5q6TXR/Screenshot-20260203-131038.png" class="team-img" alt="Avatar">
+                <h3>Avatar Patel</h3>
+                <p style="color: var(--s-green); font-weight: 700;">director Head</p>
+            </div>
+            <div class="card reveal" style="text-align: center; padding: 30px;">
+                <img src="https://i.ibb.co/WSDCd7J/IMG-20260109-131900279.jpg" class="team-img" alt="Shani">
+                <h3>Shani Patel</h3>
+                <p style="color: var(--s-green); font-weight: 700;">Lead Architect</p>
+            </div>
+            <div class="card reveal" style="text-align: center; padding: 30px;">
+                <img src="https://i.ibb.co/0j5VHFP0/IMG-20260128-194023458.jpg" class="team-img" alt="Vishal">
+                <h3>Vishal Prasad</h3>
+                <p style="color: var(--s-green); font-weight: 700;">Coordinator</p>
+            </div>
+            <div class="card reveal" style="text-align: center; padding: 30px;">
+                <img src="https://i.ibb.co/TqRR63wM/Screenshot-20260203-164721.png" class="team-img" alt="Avatar">
+                <h3>Harsh Kumar</h3>
+                <p style="color: var(--s-green); font-weight: 700;">Developer and coder</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="donate">
+        <div class="donate-card reveal">
+            <div style="text-align: left;">
+                <h2>Support Us</h2>
+                <p style="margin: 15px 0;">Help us buy seeds and tools. Every penny counts.</p>
+                <p style="font-weight: 800; font-size: 1.2rem;">UPI: donate@greenkolkata</p>
+            </div>
+            <div class="qr-area">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=donate@greenkolkata" alt="QR">
+                <p style="color: black; font-weight: 700; font-size: 0.8rem; margin-top: 5px;">SCAN TO PAY</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>HKZ UP</h4>
+                <p>Leading environmental change in Uttar Pradesh.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="javascript:void(0)" onclick="openModal('privacy')">Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="openModal('terms')">Terms & Conditions</a>
+            </div>
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <a href="https://www.instagram.com/hkz_2024?igsh=MzA5bXNkczE5eGU4"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="https://chat.whatsapp.com/HjJPVisCZpHBQIIqei0BWF?mode=gi_t"><i class="fab fa-whatsapp"></i>Whatsapp</a>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <p>&copy; 2026 HKZ UP Organization.</p>
+            <p>Developed by <span style="color: var(--accent); font-weight: 800;">Shani & Harsh</span></p>
+        </div>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:1.5rem;" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+   <!-- 🔥 FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+    /* ===============================
+   🔥 FIREBASE CONFIG
+================================ */
+    const firebaseConfig = {
+        apiKey: "AIzaSyCLb69IfCyH1IyzfN11ezackhbNs5BstOg",
+        authDomain: "hkzup-27266.firebaseapp.com",
+        projectId: "hkzup-27266"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    /* ===============================
+       📊 LOAD LIVE STATS
+    ================================ */
+    db.collection("stats").doc("global").onSnapshot(doc => {
+        if (doc.exists) {
+            const d = doc.data();
+            document.querySelector(".stat-item:nth-child(1) h3").innerText = d.plants + "+";
+            document.querySelector(".stat-item:nth-child(2) h3").innerText = d.members + "+";
+            document.querySelector(".stat-item:nth-child(3) h3").innerText = d.cities + "+";
+        }
+    });
+    
+    /* ===============================
+       📰 LOAD POSTS (MISSIONS)
+    ================================ */
+    const postContainer = document.querySelector("#updates .grid-layout");
+    
+    db.collection("posts").orderBy("createdAt", "desc")
+        .onSnapshot(snapshot => {
+            postContainer.innerHTML = "";
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                postContainer.innerHTML += `
+      <div class="card reveal">
+        <img src="${p.image}" class="card-img">
+        <div class="card-body">
+          <h3>${p.title}</h3>
+          <p>${p.description}</p>
+        </div>
+      </div>`;
+            });
+            reveal(); // animation re-run
+        });
+    
+    /* ===============================
+       🎯 HEADER SCROLL EFFECT
+    ================================ */
+    window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        window.scrollY > 80 ?
+            header.classList.add("scrolled") :
+            header.classList.remove("scrolled");
+        reveal();
+    });
+    
+    /* ===============================
+       📱 MOBILE MENU
+    ================================ */
+    const mobBtn = document.getElementById("mob-btn");
+    const menu = document.getElementById("menu");
+    
+    mobBtn.onclick = () => {
+        menu.classList.toggle("active");
+        mobBtn.classList.toggle("active");
+    };
+    
+    document.querySelectorAll(".nav-menu a").forEach(link => {
+        link.onclick = () => menu.classList.remove("active");
+    });
+    
+    /* ===============================
+       🎞 HERO SLIDER
+    ================================ */
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+    
+    setInterval(() => {
+        slides[slideIndex].classList.remove("active");
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add("active");
+    }, 5000);
+    
+    /* ===============================
+       ✨ REVEAL ANIMATION
+    ================================ */
+    function reveal() {
+        document.querySelectorAll(".reveal").forEach(el => {
+            if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+                el.classList.add("active");
+            }
+        });
+    }
+    window.onload = reveal;
+    
+    /* ===============================
+       🪟 MODAL
+    ================================ */
+    function openModal(type) {
+        document.getElementById("modal").style.display = "flex";
+        document.getElementById("modal-body").innerHTML =
+            type === "privacy" ?
+            "<h3>Privacy Policy</h3><p>HKZ Uttar Pradesh respects your privacy and is committed to protecting your personal information. We do not collect or share any user data without your explicit consent. Our portal utilizes secure Google Firebase servers to ensure that all your information remains encrypted and safe. This website is strictly dedicated to environmental welfare and social service, and we prioritize maintaining the trust of our members and donors.</p>" :
+            "<h3>Terms & Conditions</h3><p>By using this portal, you agree to support our mission of environmental conservation. All content, images, and project details displayed on this website are the property of HKZ UP and should not be used elsewhere without permission. Any donations made through the portal are utilized directly for tree plantation drives and green initiatives. We reserve the right to update our services and policies at any time to better serve our environmental goals.</p>";
+    }
+    
+    function closeModal() {
+        document.getElementById("modal").style.display = "none";
+    }
+</script>
+</body>
+</html>
